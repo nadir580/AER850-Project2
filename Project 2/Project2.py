@@ -50,3 +50,28 @@ test_dataset = test_dataset.prefetch(buffer_size=autotune)
 
 for x_batch, y_batch in train_dataset.take(1):
     print("Batch Shape: ", x_batch.shape, y_batch.shape)
+
+# Part 2: Neural Network Architecture Design
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+
+model = Sequential()
+
+model.add(Conv2D(32, kernel_size=(3, 3), strides=(1, 1), activation='relu', input_shape=INPUT_SHAPE))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Conv2D(64, kernel_size=(3, 3), strides=(1, 1), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Conv2D(128, kernel_size=(3, 3), strides=(1, 1), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Flatten())
+
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.5))
+
+model.add(Dense(3, activation='softmax'))
+
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
