@@ -75,3 +75,45 @@ model.add(Dense(3, activation='softmax'))
 
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
+# Part 3: Hyperparameter Analysis
+from tensorflow.keras.layers import LeakyReLU, ELU
+
+model = Sequential()
+
+model.add(Conv2D(32, kernel_size=(3, 3), strides=(1, 1), activation=None, input_shape=INPUT_SHAPE))
+model.add(LeakyReLU(alpha=0.1))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Conv2D(64, kernel_size=(3, 3), strides=(1, 1), activation=None))
+model.add(LeakyReLU(alpha=0.1))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Conv2D(128, kernel_size=(3, 3), strides=(1, 1), activation=None))
+model.add(LeakyReLU(alpha=0.1))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Flatten())
+
+model.add(Dense(128, activation=None))
+model.add(ELU(alpha=1.0))
+model.add(Dropout(0.5))
+
+model.add(Dense(3, activation='softmax'))
+
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+model.summary()
+
+model.fit(
+    train_dataset,
+    validation_data=validation_dataset,
+    epochs=10
+)
+
+test_loss, test_accuracy = model.evaluate(test_dataset)
+print(f"Test Loss: {test_loss}")
+print(f"Test Accuracy: {test_accuracy}")
+
+model.save("../model.keras")
+
+
