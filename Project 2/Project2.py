@@ -114,6 +114,32 @@ test_loss, test_accuracy = model.evaluate(test_dataset)
 print(f"Test Loss: {test_loss}")
 print(f"Test Accuracy: {test_accuracy}")
 
+
+# Part 4: Model Evaluation
+fitted_model = model.fit(
+    train_dataset,
+    validation_data=validation_dataset,
+    epochs=10
+)
+
+import matplotlib.pyplot as plt
+
+fig, axes = plt.subplots(1, 2, figsize=(15, 5))
+axes[0].plot(fitted_model.history['accuracy'], label='Training Accuracy')
+axes[0].plot(fitted_model.history['val_accuracy'], label='Validation Accuracy')
+axes[0].set_title('Model Accuracy')
+axes[0].legend()
+
+axes[1].plot(fitted_model.history['loss'], label='Training Loss')
+axes[1].plot(fitted_model.history['val_loss'], label='Validation Loss')
+axes[1].set_title('Model Loss')
+axes[1].legend()
+
+plt.show()
+
 model.save("../model.keras")
+test_loss, test_accuracy = model.evaluate(test_dataset)
+print(f"Test Loss: {test_loss}")
+print(f"Test Accuracy: {test_accuracy}")
 
 
